@@ -9,31 +9,31 @@ namespace RPG_Battler.Character
 {
     public class Hero : Creations
     {
+        // Properties for current battle stats
         public int Health { get; set; }
         public int Power { get; set; }
         public int Luck { get; set; }
         public int Mana { get; set; }
+
+        // XP remaining to next level
         public int ExperienceRemaining { get; set; }
+
+        // Class-specific stat progression
         public CombatClass CombatClass { get; set; }
+
+        // Equipment, items, skills, spells lists
         public List<Item> Items { get; set; }
         public List<Skill> Skills { get; set; }
         public List<Spell> Spells { get; set; }
         public List<Equipment> Equipments {get; set;}
 
+        // Dictionary to track wear and tear per equipment piece
+        public Dictionary<Equipment, double> EquipmentDurability {get; private set;} = new();
+
+        // Date when the hero was last leveled
+        public DateTime LastLevelUpdate {get; set;} = DateTime.Now; 
         public Hero()
         {
-            Name = "unknown";    
-            Level = 0;
-            Health = 1;
-            Power = 1;
-            Luck = 1;
-            Mana = 0;
-            ExperienceRemaining = 0;
-            CombatClass = CombatClass.None;
-            Items = new List<Item>();
-            Skills = new List<Skill>();
-            Spells = new List<Spell>();
-            Equipments = new List<Equipment>();  
         }
 
         public void LevelUp()

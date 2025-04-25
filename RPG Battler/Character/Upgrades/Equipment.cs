@@ -10,9 +10,10 @@ namespace RPG_Battler.Character.Upgrades
     public class Equipment
     {
         public string EquipmentName { get; set; } = string.Empty;
-        public EquipmentSlot Slot { get; set; }    
-        public StatBoostType StatBoostType { get; set; } 
-        public int BoostValue { get; set; }
+        public EquipmentSlot Slot { get; set; } // this is where the equipment is worn
+        public StatBoostType StatBoostType { get; set; } // this is what stat this item boosts
+        public int BoostValue { get; set; } // this is the amount the stat is boosted
+        public double Durability {get; set;} = 100; // this is the Durability of the equipment
 
         public Equipment() 
         { 
@@ -24,6 +25,7 @@ namespace RPG_Battler.Character.Upgrades
             Slot = slot;
             StatBoostType = statBoostType;
             BoostValue = boostValue;
+            Durability = 100;
         }
     }
     public enum EquipmentSlot

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Base class shared by all characters (hero or monster)
 namespace RPG_Battler.Character
 {
     public  class Creations

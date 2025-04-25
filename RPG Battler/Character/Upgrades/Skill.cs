@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Represents a combat skill a hero can use with cooldown
 namespace RPG_Battler.Character.Upgrades
 {
     public class Skill
@@ -23,14 +24,10 @@ namespace RPG_Battler.Character.Upgrades
 
         public void UseSkill(Hero hero)
         {
-            if (CurrentCooldown == 0)
+            if(CurrentCooldown == 0)
             {
-                Console.WriteLine($"{hero.Name} uses {SkillName}!");
+                // You could integrate damage logic here
                 CurrentCooldown = MaxCooldown;
-            }
-            else 
-            {
-                Console.WriteLine($"{SkillName} is on cooldown for {CurrentCooldown} more turns.");
             }
         }
 

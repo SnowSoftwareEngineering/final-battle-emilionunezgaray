@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Represents magical abilities that cost mana to cast
 namespace RPG_Battler.Character.Upgrades
 {
     public class Spell
@@ -11,6 +12,8 @@ namespace RPG_Battler.Character.Upgrades
         public string SpellName { get; set; }
         public int ManaCost { get; set; }
         public int BaseDamage { get; set; }
+        public DateTime StudyStartDate {get; set;} = DateTime.Now;
+
 
         public Spell(string name, int manaCost, int baseDamage)
         {
@@ -21,20 +24,15 @@ namespace RPG_Battler.Character.Upgrades
 
         public int CalculateSpellDamage(int heroPower)
         {
-            return BaseDamage + (heroPower / 2);
+            int daysStudied = (DateTime.Now - StudyStartDate).Days;
+            return BaseDamage + (heroPower / 2) + daysStudied;
         }
 
         public void CastSpell(Hero hero)
         { 
-            if (hero.Mana >= ManaCost)
+            if(hero.Mana >= ManaCost)
             {
-                int damage = CalculateSpellDamage(hero.Power);
-                Console.WriteLine($"{hero.Name} casts {SpellName} for {damage} damage!");
                 hero.Mana -= ManaCost;
-            }
-            else
-            {
-                Console.WriteLine($"{hero.Name} does not have enough mana to cast {SpellName}.");
             }
         }
     }

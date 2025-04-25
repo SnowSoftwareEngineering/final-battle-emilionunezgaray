@@ -5,18 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using RPG_Battler.Character.Upgrades;
 
+// Generates random rewards for the hero
 namespace RPG_Battler.Gameplay
 {
     public class LootBox
     {
-        public static Item GetRandomItem()
-        {
-            return new Item("Health Potion", "Restores 20 HP") { ItemPower = 20 };
-        }
+       private static Random rng = new Random();
 
-        public static Equipment GetRandomEquipment()
-        {
-            return new Equipment("Iron Sword", EquipmentSlot.RightArm, StatBoostType.Power, 5);
-        }
+       public static Equipment GenerateRandomEquipment()
+       {
+            string name = "Gem Stones";
+            var slot = EquipmentSlot.RightArm;
+            var stat = StatBoostType.Power;
+            int value = rng.Next(5, 15);
+
+            return new Equipment(name, slot, stat, value);
+       }
     }
 }
