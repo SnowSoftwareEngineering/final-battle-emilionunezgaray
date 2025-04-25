@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RPG_Battler.Character.Upgrades
+// This class defines equipment that can be used by heroes. Equipment can boost stats and degrade over time.
 {
     public class Equipment
     {

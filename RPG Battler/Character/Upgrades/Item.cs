@@ -11,7 +11,6 @@ namespace RPG_Battler.Character.Upgrades
         public string ItemName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int ItemPower { get; set; }
-
         public Item() 
         { 
         }
