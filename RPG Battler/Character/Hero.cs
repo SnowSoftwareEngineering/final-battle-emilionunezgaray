@@ -9,44 +9,30 @@ namespace RPG_Battler.Character
 {
     public class Hero : Creations
     {
-        // Properties for current battle stats
+        public string Name {get; set;}
         public int Health { get; set; }
         public int Power { get; set; }
         public int Luck { get; set; }
         public int Mana { get; set; }
 
-        // XP remaining to next level
         public int ExperienceRemaining { get; set; }
 
-        // Class-specific stat progression
         public CombatClass CombatClass { get; set; }
 
-        // Equipment, items, skills, spells lists
-        public List<Item> Items { get; set; }
-        public List<Skill> Skills { get; set; }
-        public List<Spell> Spells { get; set; }
-        public List<Equipment> Equipments {get; set;}
+        public List<Item> Items { get; set; } = new();
+        public List<Skill> Skills { get; set; } = new();
+        public List<Spell> Spells { get; set; } = new();
+        public List<Equipment> Equipment {get; set;} = new();
 
-        // Dictionary to track wear and tear per equipment piece
+        
         public Dictionary<Equipment, double> EquipmentDurability {get; private set;} = new();
 
-        // Date when the hero was last leveled
+      
         public DateTime LastLevelUpdate {get; set;} = DateTime.Now; 
-        public Hero()
+        public Hero(string name)
         {
-        }
-
-        public void LevelUp()
-        {
-           Level++;
-           ExperienceRemaining = 100 * Level;
-           TotalHealth += 10;
-           TotalPower += 5;
-           TotalLuck += 2;
-           Health = TotalHealth;
-           Power = TotalPower;
-           Luck = TotalLuck;
-           Mana += 5;
+            Name = name;
+            Health = 100;
         }
 
         public void CalculateTotals()
@@ -55,23 +41,75 @@ namespace RPG_Battler.Character
             TotalPower = Power;
             TotalLuck = Luck;
 
-            foreach (var equip in Equipments)
+            foreach (var gear in Equipment.ToList())
             {
-                switch (equip.StatBoostType)
+                if(gear.StatBoostType == StatBoostType.Health)
+                TotalHealth += gear.BoostValue;
+
+                else if(gear.StatBoostType == StatBoostType.Power)
+                TotalPower += gear.BoostValue;
+
+                else if(gear.StatBoostType == StatBoostType.Luck)
+                TotalLuck += gear.BoostValue;
+            }
+        }
+
+       
+        public void LevelUp()
+        {
+            Level++;
+            ExperienceRemaining = 100 + Level * 10; 
+            LastLevelUpdate = DateTime.Now;
+
+            switch (CombatClass)
+            {
+                case CombatClass.Warrior:
+                    Health += 10;
+                    Power += 5;
+                    break;
+
+                case CombatClass.Wizard:
+                    Mana += 10;
+                    Power += 3;
+                    break;
+
+                case CombatClass.Rogue:
+                    Luck += 7;
+                    Power += 3;
+                    break;
+            }
+
+            CalculateTotals(); 
+        }
+
+        public void UpdateEquipmentDurability()
+        {
+            foreach(var equip in Equipment.ToList())
+            {
+                if(!EquipmentDurability.ContainsKey(equip))
                 {
-                    case StatBoostType.Health:
-                    TotalHealth += equip.BoostValue;
-                    break;
-                    case StatBoostType.Power:
-                    TotalPower += equip.BoostValue;
-                    break;
-                    case StatBoostType.Luck:
-                    TotalLuck += equip.BoostValue;
-                    break;
+                    EquipmentDurability[equip] = 1.0;
+                }
+
+                EquipmentDurability[equip] = Math.Max(0, EquipmentDurability[equip] - 0.01);
+
+                if (EquipmentDurability[equip] <= 0)
+                {
+                    Equipment.Remove(equip);
+                    EquipmentDurability.Remove(equip);
                 }
             }
         }
 
+        public void GainExperience(int xp)
+        {
+            ExperienceRemaining -= xp;
+
+            while (ExperienceRemaining <= 0)
+            {
+                LevelUp(); 
+            }
+        }
     }
 
 }

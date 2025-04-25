@@ -1,0 +1,27 @@
+{
+  "Name": "Batman",
+  "Health": -7,
+  "Power": 0,
+  "Luck": 0,
+  "Mana": 0,
+  "ExperienceRemaining": 110,
+  "CombatClass": 0,
+  "Items": [],
+  "Skills": [],
+  "Spells": [],
+  "Equipment": [
+    {
+      "EquipmentName": "Gem Stones",
+      "Slot": 3,
+      "StatBoostType": 1,
+      "BoostValue": 7,
+      "Durability": 100
+    }
+  ],
+  "EquipmentDurability": {},
+  "LastLevelUpdate": "2025-04-25T12:53:32.7587178-06:00",
+  "Level": 1,
+  "TotalHealth": 100,
+  "TotalPower": 0,
+  "TotalLuck": 0
+}

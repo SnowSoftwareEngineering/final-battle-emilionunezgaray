@@ -19,14 +19,13 @@ namespace RPG_Battler.Character.Upgrades
             SkillName = name;
             BaseDamage = baseDamage;
             MaxCooldown = cooldown;
-            CurrentCooldown = 0; // Ready to use at the start
+            CurrentCooldown = 0; 
         }
 
         public void UseSkill(Hero hero)
         {
             if(CurrentCooldown == 0)
             {
-                // You could integrate damage logic here
                 CurrentCooldown = MaxCooldown;
             }
         }

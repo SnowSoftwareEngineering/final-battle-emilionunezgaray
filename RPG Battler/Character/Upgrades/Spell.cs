@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// Represents magical abilities that cost mana to cast
 namespace RPG_Battler.Character.Upgrades
 {
     public class Spell

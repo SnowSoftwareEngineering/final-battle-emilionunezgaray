@@ -9,15 +9,13 @@ namespace RPG_Battler.Character
 {
     public class Monster : Creations
     {
+        public string Name { get; set; }
+        public int Health { get; set; }
         public int Damage {get; set;}
-        public Monster(string name, int level, int health, int power, int luck, int damage)
+        public Monster(string name)
         {
             Name = name;
-            Level = level;
-            TotalHealth = health;
-            TotalPower = power;
-            TotalLuck = luck;
-            Damage = damage;
+            Health = 80;
         }
     }
 }
