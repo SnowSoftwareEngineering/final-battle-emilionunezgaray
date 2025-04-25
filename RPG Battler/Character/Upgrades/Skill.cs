@@ -23,6 +23,15 @@ namespace RPG_Battler.Character.Upgrades
 
         public void UseSkill(Hero hero)
         {
+            if (CurrentCooldown == 0)
+            {
+                Console.WriteLine($"{hero.Name} uses {SkillName}!");
+                CurrentCooldown = MaxCooldown;
+            }
+            else 
+            {
+                Console.WriteLine($"{SkillName} is on cooldown for {CurrentCooldown} more turns.");
+            }
         }
 
         public void CooldownTick()

@@ -18,7 +18,7 @@ namespace RPG_Battler.Character
         public List<Item> Items { get; set; }
         public List<Skill> Skills { get; set; }
         public List<Spell> Spells { get; set; }
-        public List<Equipment> Equipment { get; set; }
+        public List<Equipment> Equipments {get; set;}
 
         public Hero()
         {
@@ -33,46 +33,45 @@ namespace RPG_Battler.Character
             Items = new List<Item>();
             Skills = new List<Skill>();
             Spells = new List<Spell>();
-            Equipment = new List<Equipment>();   
+            Equipments = new List<Equipment>();  
         }
 
         public void LevelUp()
         {
-            Random rng = new Random();
-            Level++;
-
-            switch(CombatClass)
-            {
-                case CombatClass.Wizard:
-                Health += rng.Next(1, 16); // 1-15
-                Power += rng.Next(3, 6); // 3-5
-                Luck += rng.Next(1, 4);  // 1-3
-                break;
-
-                case CombatClass.Warrior:
-                Health += rng.Next(10, 21); // 10-20
-                Power += rng.Next(1, 4); // 1-3
-                Luck += rng.Next(1,4); // 1-3
-                break; 
-
-                case CombatClass.Rogue:
-                Health += rng.Next(1, 16); // 1-15
-                Power += rng.Next(1, 4);   // 1-3 
-                Luck += rng.Next(3, 6);    // 3-5
-                break;
-
-                default: throw new InvalidOperationException("CombatClass must be set before leveling up.");
-            }
-            CalculateTotals();
+           Level++;
+           ExperienceRemaining = 100 * Level;
+           TotalHealth += 10;
+           TotalPower += 5;
+           TotalLuck += 2;
+           Health = TotalHealth;
+           Power = TotalPower;
+           Luck = TotalLuck;
+           Mana += 5;
         }
 
         public void CalculateTotals()
         {
+            TotalHealth = Health;
+            TotalPower = Power;
+            TotalLuck = Luck;
+
+            foreach (var equip in Equipments)
+            {
+                switch (equip.StatBoostType)
+                {
+                    case StatBoostType.Health:
+                    TotalHealth += equip.BoostValue;
+                    break;
+                    case StatBoostType.Power:
+                    TotalPower += equip.BoostValue;
+                    break;
+                    case StatBoostType.Luck:
+                    TotalLuck += equip.BoostValue;
+                    break;
+                }
+            }
         }
 
-        public void DisplayStats(bool showTotal = true)
-        {
-            // here will be the code for later
-        }
     }
+
 }

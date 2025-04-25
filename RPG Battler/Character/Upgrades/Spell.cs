@@ -26,6 +26,16 @@ namespace RPG_Battler.Character.Upgrades
 
         public void CastSpell(Hero hero)
         { 
+            if (hero.Mana >= ManaCost)
+            {
+                int damage = CalculateSpellDamage(hero.Power);
+                Console.WriteLine($"{hero.Name} casts {SpellName} for {damage} damage!");
+                hero.Mana -= ManaCost;
+            }
+            else
+            {
+                Console.WriteLine($"{hero.Name} does not have enough mana to cast {SpellName}.");
+            }
         }
     }
 }
