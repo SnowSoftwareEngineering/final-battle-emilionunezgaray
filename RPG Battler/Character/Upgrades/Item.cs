@@ -6,19 +6,16 @@ using System.Threading.Tasks;
 
 namespace RPG_Battler.Character.Upgrades
 {
-    public class Item
+    // Abstract base class for all items - Abstraction
+    public abstract class Item
     {
-        public string ItemName { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public int ItemPower { get; set; } 
-        public Item() 
-        { 
+        public string Name { get; set; }
+        public Item(string name) 
+        {
+            Name = name; 
         }
 
-        public Item(string name, string description)
-        {
-            ItemName = name;
-            Description = description;
-        }
+        // Abstract Display method, overridden - Abstraction
+        public abstract void Display();
     }
 }

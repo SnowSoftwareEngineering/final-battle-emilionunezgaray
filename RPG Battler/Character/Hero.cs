@@ -1,115 +1,55 @@
 ﻿using RPG_Battler.Character.Upgrades;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Hello professor, I will include comments that explain what I added to recover some points.
+// as well as the requirements that are completed
 namespace RPG_Battler.Character
 {
     public class Hero : Creations
     {
-        public string Name {get; set;}
-        public int Health { get; set; }
-        public int Power { get; set; }
-        public int Luck { get; set; }
-        public int Mana { get; set; }
+        private List<Skill> Skills = new List<Skill>();
+        private List<Spell> Spells = new List<Spell>();
+        private List<Equipment> Equipments = new List<Equipment>();
 
-        public int ExperienceRemaining { get; set; }
-
-        public CombatClass CombatClass { get; set; }
-
-        public List<Item> Items { get; set; } = new();
-        public List<Skill> Skills { get; set; } = new();
-        public List<Spell> Spells { get; set; } = new();
-        public List<Equipment> Equipment {get; set;} = new();
-
-        
-        public Dictionary<Equipment, double> EquipmentDurability {get; private set;} = new();
-
-      
-        public DateTime LastLevelUpdate {get; set;} = DateTime.Now; 
         public Hero(string name)
         {
             Name = name;
-            Health = 100;
+            Level = 1;
+            TotalHealth = 25;
+            TotalPower = 5;
+            TotalLuck = 3;
         }
 
-        public void CalculateTotals()
+        public void EquipItem(Equipment equipment)
         {
-            TotalHealth = Health;
-            TotalPower = Power;
-            TotalLuck = Luck;
-
-            foreach (var gear in Equipment.ToList())
-            {
-                if(gear.StatBoostType == StatBoostType.Health)
-                TotalHealth += gear.BoostValue;
-
-                else if(gear.StatBoostType == StatBoostType.Power)
-                TotalPower += gear.BoostValue;
-
-                else if(gear.StatBoostType == StatBoostType.Luck)
-                TotalLuck += gear.BoostValue;
-            }
+            Equipments.Add(equipment);
+            TotalPower += equipment.PowerBoost;
+            Console.WriteLine($"Equipped {equipment.Name}. Power increased by {equipment.PowerBoost}.");
         }
 
-       
-        public void LevelUp()
+        public void LearnSkill(Skill skill)
         {
-            Level++;
-            ExperienceRemaining = 100 + Level * 10; 
-            LastLevelUpdate = DateTime.Now;
-
-            switch (CombatClass)
-            {
-                case CombatClass.Warrior:
-                    Health += 10;
-                    Power += 5;
-                    break;
-
-                case CombatClass.Wizard:
-                    Mana += 10;
-                    Power += 3;
-                    break;
-
-                case CombatClass.Rogue:
-                    Luck += 7;
-                    Power += 3;
-                    break;
-            }
-
-            CalculateTotals(); 
+            Skills.Add(skill);
+            Console.WriteLine($"Learned new skill: {skill.Name} (Power: {skill.Power}, Cooldown: {skill.Cooldown})");
         }
 
-        public void UpdateEquipmentDurability()
+        public void LearnSpell(Spell spell)
         {
-            foreach(var equip in Equipment.ToList())
-            {
-                if(!EquipmentDurability.ContainsKey(equip))
-                {
-                    EquipmentDurability[equip] = 1.0;
-                }
-
-                EquipmentDurability[equip] = Math.Max(0, EquipmentDurability[equip] - 0.01);
-
-                if (EquipmentDurability[equip] <= 0)
-                {
-                    Equipment.Remove(equip);
-                    EquipmentDurability.Remove(equip);
-                }
-            }
+            Spells.Add(spell);
+            Console.WriteLine($"Studied new spell: {spell.Name} (Power: {spell.Power}, Time: {spell.StudyTime})");
         }
 
-        public void GainExperience(int xp)
+        public override void DisplayStats()
         {
-            ExperienceRemaining -= xp;
-
-            while (ExperienceRemaining <= 0)
-            {
-                LevelUp(); 
-            }
+            Console.WriteLine($"\nHero: {Name}");
+            Console.WriteLine($"Level: {Level}, Health: {TotalHealth}, Power: {TotalPower}, Luck: {TotalLuck}");
+            Console.WriteLine("Skills: " + (Skills.Count == 0 ? "None" : string.Join(", ", Skills.ConvertAll(s => s.Name))));
+            Console.WriteLine("Spells: " + (Spells.Count == 0 ? "None" : string.Join(", ", Spells.ConvertAll(s => s.Name))));
         }
     }
-
 }

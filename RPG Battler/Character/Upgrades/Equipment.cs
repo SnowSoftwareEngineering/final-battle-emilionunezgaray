@@ -5,44 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RPG_Battler.Character.Upgrades
-
 {
-    public class Equipment
-    {
-        public string EquipmentName { get; set; } = string.Empty;
-        public EquipmentSlot Slot { get; set; } 
-        public StatBoostType StatBoostType { get; set; } 
-        public int BoostValue { get; set; } 
-        public double Durability {get; set;} = 100; 
-
-        public Equipment() 
-        { 
-        }
-
-        public Equipment(string name, EquipmentSlot slot, StatBoostType statBoostType, int boostValue)
-        {
-            EquipmentName = name;
-            Slot = slot;
-            StatBoostType = statBoostType;
-            BoostValue = boostValue;
-            Durability = 100;
-        }
-    }
-    public enum EquipmentSlot
-    {
-        Head,
-        Chest,
-        LeftArm,
-        RightArm,
-        Legs,
-        Boots,
-        Cape
-    }
-
+    // Enum to define what stat an equipment item boosts - Enum
     public enum StatBoostType
     {
         Health,
         Power,
         Luck
     }
+
+    // Equipment class, inheritance of Item - Inheritance
+    public class Equipment : Item
+    {
+        // Boost Type and value - Encapsulation
+        public int PowerBoost {get; set;}
+
+        public Equipment(string name, int powerBoost) : base(name)
+        {
+            PowerBoost = powerBoost;
+        }
+
+        // specific equipment display - method overiding - Polymorphism
+        public override void Display()
+        {
+            Console.WriteLine($"{Name} (Power +{PowerBoost})");
+        }
+    }   
 }
+

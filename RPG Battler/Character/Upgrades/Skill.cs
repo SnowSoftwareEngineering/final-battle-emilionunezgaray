@@ -4,37 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// Represents a combat skill a hero can use with cooldown
 namespace RPG_Battler.Character.Upgrades
 {
+    // Skill class, specialized abilities for Heroes - Encapsulation
     public class Skill
     {
-        public string SkillName { get; set; }
-        public int BaseDamage { get; set; }
-        public int MaxCooldown { get; private set; }
-        public int CurrentCooldown { get; private set; }
+        // Encapsulation
+        public string Name { get; set; }
+        public int PowerBoost { get; set; }
+        public int CooldownDays { get; set; } // Days until skill can be reused
 
-        public Skill(string name, int baseDamage, int cooldown)
+        private DateTime lastUsed; // Encapsulation with private field
+        public Skill(string name, int powerBoost, int cooldownDays)
         {
-            SkillName = name;
-            BaseDamage = baseDamage;
-            MaxCooldown = cooldown;
-            CurrentCooldown = 0; 
+            Name = name;
+            PowerBoost = powerBoost;
+            CooldownDays = cooldownDays;
+            lastUsed = DateTime.MinValue;
         }
 
-        public void UseSkill(Hero hero)
+        // Check if Skill is available based on cooldown - DateTime
+        public bool IsAvailable()
         {
-            if(CurrentCooldown == 0)
+            return (DateTime.Now - lastUsed).TotalDays >= CooldownDays;
+        }
+
+        // Use the Skill, update lastUsed - DateTime
+        public void UseSkill()
+        {
+            if (IsAvailable())
             {
-                CurrentCooldown = MaxCooldown;
+                lastUsed = DateTime.Now;
+                Console.WriteLine($"{Name} used! Power boost: {PowerBoost}");
             }
-        }
-
-        public void CooldownTick()
-        {
-            if (CurrentCooldown > 0)
+            else
             {
-                CurrentCooldown--;
+                Console.WriteLine($"{Name} is on cooldown. Please wait.");
             }
         }
     }

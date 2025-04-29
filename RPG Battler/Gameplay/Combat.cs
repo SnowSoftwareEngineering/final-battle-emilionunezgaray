@@ -5,57 +5,42 @@ using System.Text;
 using System.Threading.Tasks;
 using RPG_Battler.Character;
 
-// Battle logic between a hero and a monster
 namespace RPG_Battler.Gameplay
 {
+    // Combat class handles battles between Heroes and Monsters
     public class Combat
     {
-       private static Random rng = new Random();
+        private Random random = new Random();
 
-        public static void Battle(Hero hero, Monster monster)
+        // Async Battle method with randomized mechanics
+        public async Task<bool> BattleAsync(Hero hero, Monster monster)
         {
-            Console.WriteLine($" Battle Start: {hero.Name} vs {monster.Name}");
-            Console.WriteLine();
+            Console.WriteLine($"\nBattle Starts: {hero.Name} vs {monster.Name} ({monster.MonsterType})");
+            await Task.Delay(1000);
 
-            while (hero.Health > 0 && monster.Health > 0)
-            {
-                
-                int heroDamage = rng.Next(5, 15);
-                monster.Health -= heroDamage;
-                Console.WriteLine($"{hero.Name} attacks {monster.Name} for {heroDamage} damage! (Monster HP: {Math.Max(monster.Health, 0)})");
+            // Add randomness to each attack
+            int heroAttack = hero.TotalPower + random.Next(0, hero.TotalLuck + 1);
+            int monsterAttack = monster.TotalPower + random.Next(0, monster.TotalLuck + 1);
 
-                
-                if (monster.Health <= 0)
-                {
-                    Console.WriteLine($"\n {hero.Name} wins!");
-                    break;
-                }
-                
-                bool monsterCrit = rng.NextDouble() < 0.25; 
-                int monsterDamage = rng.Next(4, 12);
-                if (monsterCrit)
-                {
-                    monsterDamage *= 2;
-                    Console.WriteLine(" Critical hit by the Monster!");
-                }
-                hero.Health -= monsterDamage;
-                Console.WriteLine($"{monster.Name} attacks {hero.Name} for {monsterDamage} damage! (Hero HP: {Math.Max(hero.Health, 0)})");
+            Console.WriteLine($"{hero.Name} attacks with power: {heroAttack}");
+            Console.WriteLine($"{monster.Name} attacks with power: {monsterAttack}");
 
-                if (hero.Health <= 0)
-                {
-                    Console.WriteLine($"\n {monster.Name} wins!");
-                    break;
-                }
+            bool heroWins = heroAttack >= monsterAttack;
 
-                if (rng.NextDouble() < 0.10) 
-                {
-                    int healAmount = rng.Next(5, 10);
-                    monster.Health += healAmount;
-                    Console.WriteLine($"{monster.Name} heals for {healAmount} HP! (Monster HP: {monster.Health})");
-                }
+            Console.WriteLine(heroWins ? $"{hero.Name} wins the battle!" : $"{monster.Name} defeats {hero.Name}");
+            return heroWins;
+        }
 
-                Console.WriteLine(); 
-            }
+        // LINQ + Lambda example: Get strongest monster from list
+        public Monster FindStrongestMonster(List<Monster> monsters)
+        {
+            return monsters.OrderByDescending(m => m.TotalPower).FirstOrDefault();
+        }
+
+        // Extra method for finding a random monster (used in updated Main)
+        public Monster GetRandomMonster(List<Monster> monsters)
+        {
+            return monsters[random.Next(monsters.Count)];
         }
     }
 }

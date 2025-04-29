@@ -4,18 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// Defines monster enemies that are the ones fighting the heroes
 namespace RPG_Battler.Character
 {
+    // Monster inherits from Creations - Inheritance
     public class Monster : Creations
     {
-        public string Name { get; set; }
-        public int Health { get; set; }
-        public int Damage {get; set;}
-        public Monster(string name)
+        // Monster specific properties - Encapsulation
+        public string MonsterType { get; set; }
+        public Monster(string name, string monsterType, int level, int totalHealth, int totalPower, int totalLuck)
         {
             Name = name;
-            Health = 80;
+            MonsterType = monsterType;
+            Level = level;
+            TotalHealth = totalHealth;
+            TotalPower = totalPower;
+            TotalLuck = totalLuck;
+        }
+
+        // Override DisplayStats method - Polymorphism
+        public override void DisplayStats()
+        {
+            Console.WriteLine($"Monster: {Name} (Type: {MonsterType})");
+            Console.WriteLine($"Level: {Level}, Health: {TotalHealth}, Power: {TotalPower}, Luck: {TotalLuck}");
         }
     }
 }

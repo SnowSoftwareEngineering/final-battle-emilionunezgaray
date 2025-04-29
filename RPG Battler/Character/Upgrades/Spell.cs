@@ -6,33 +6,30 @@ using System.Threading.Tasks;
 
 namespace RPG_Battler.Character.Upgrades
 {
+    // Spell class, it grows stronger over time - Encapsulation, DateTime
     public class Spell
     {
-        public string SpellName { get; set; }
-        public int ManaCost { get; set; }
-        public int BaseDamage { get; set; }
-        public DateTime StudyStartDate {get; set;} = DateTime.Now;
-
-
-        public Spell(string name, int manaCost, int baseDamage)
+        public string Name { get; set; }
+        public int BasePower { get; set; }
+        public DateTime LearnedDate {get; private set;}
+        public Spell(string name, int basePower)
         {
-            SpellName = name;
-            ManaCost = manaCost;
-            BaseDamage = baseDamage;
+            Name = name;
+            BasePower = basePower;
+            LearnedDate = DateTime.Now;
         }
 
-        public int CalculateSpellDamage(int heroPower)
+        // Calculate current power, based on time elapsed - DateTime
+        public int CurrentPower()
         {
-            int daysStudied = (DateTime.Now - StudyStartDate).Days;
-            return BaseDamage + (heroPower / 2) + daysStudied;
+            int daysSinceLearned = (int)(DateTime.Now - LearnedDate).TotalDays;
+            return BasePower + daysSinceLearned;
         }
 
-        public void CastSpell(Hero hero)
+        // Spell info
+        public void Display()
         { 
-            if(hero.Mana >= ManaCost)
-            {
-                hero.Mana -= ManaCost;
-            }
+            Console.WriteLine($"{Name} - Current Power: {CurrentPower()}");
         }
     }
 }
