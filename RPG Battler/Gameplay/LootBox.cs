@@ -33,7 +33,7 @@ namespace RPG_Battler.Gameplay
         {
             var skills = new List<Skill>
             {
-                new Skill("Fireball", 10, 2),
+                new Skill("Fireball", 10, 3),
                 new Skill("Ice Shield", 8, 3),
                 new Skill("Thunder Strike", 6, 1)
             };

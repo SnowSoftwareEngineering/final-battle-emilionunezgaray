@@ -31,7 +31,7 @@ namespace RPG_Battler.Character.Upgrades
 
         // Use the Skill, update lastUsed - DateTime
         public void UseSkill()
-        {
+        {            
             if (IsAvailable())
             {
                 lastUsed = DateTime.Now;
@@ -44,3 +44,11 @@ namespace RPG_Battler.Character.Upgrades
         }
     }
 }
+
+ // Example on how to use 
+//  public void Use()
+//         {
+//             if (!IsAvailable())
+//                 throw new SkillOnCooldownException($"Skill '{Name}' is on cooldown.");
+//             LastUsed = DateTime.Now;
+//         }

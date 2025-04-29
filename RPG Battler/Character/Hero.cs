@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 // Hello professor, I will include comments that explain what I added to recover some points.
@@ -19,12 +20,29 @@ namespace RPG_Battler.Character
         public Hero(string name)
         {
             Name = name;
-            Level = 1;
+            Level = 2;
             TotalHealth = 25;
-            TotalPower = 5;
+            TotalPower = 20;
             TotalLuck = 3;
         }
 
+        // JSOM
+        public void SaveHero(string filepath)
+        {
+            var options = new JsonSerializerOptions {WriteIndented = true};
+            string json = JsonSerializer.Serialize(this, options);
+            File.WriteAllText(filepath, json);
+        }
+
+        public static Hero LoadHero(string filepath)
+        {
+            string json = File.ReadAllText(filepath);
+            return JsonSerializer.Deserialize<Hero>(json);
+        }
+
+        // Applying the attribute
+        [Hero("This class defines the main controllable Hero character with level, stats, equipment, and skills")]
+        public class Heros {}
         public void EquipItem(Equipment equipment)
         {
             Equipments.Add(equipment);
@@ -35,13 +53,13 @@ namespace RPG_Battler.Character
         public void LearnSkill(Skill skill)
         {
             Skills.Add(skill);
-            Console.WriteLine($"Learned new skill: {skill.Name} (Power: {skill.Power}, Cooldown: {skill.Cooldown})");
+            Console.WriteLine($"Learned new skill: {skill.Name} (Power: {skill.PowerBoost}, Cooldown: {skill.CooldownDays})");
         }
 
         public void LearnSpell(Spell spell)
         {
             Spells.Add(spell);
-            Console.WriteLine($"Studied new spell: {spell.Name} (Power: {spell.Power}, Time: {spell.StudyTime})");
+            Console.WriteLine($"Studied new spell: {spell.Name} (Power: {spell.BasePower}, Time: {spell.LearnedDate})");
         }
 
         public override void DisplayStats()

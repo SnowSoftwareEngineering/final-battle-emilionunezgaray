@@ -37,7 +37,7 @@ namespace RPG_Battler.Gameplay
             return monsters.OrderByDescending(m => m.TotalPower).FirstOrDefault();
         }
 
-        // Extra method for finding a random monster (used in updated Main)
+        // Extra method for finding a random monster
         public Monster GetRandomMonster(List<Monster> monsters)
         {
             return monsters[random.Next(monsters.Count)];
